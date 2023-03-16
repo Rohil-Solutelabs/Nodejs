@@ -1,4 +1,5 @@
 const http = require("http");
+const fs = require("fs");
 const port = process.env.PORT || 3000;
 const server = http.createServer((req, res) => {
   if (req.url === "/redirect") {
@@ -10,6 +11,8 @@ const server = http.createServer((req, res) => {
     });
     req.on("end", () => {
       const parsedBody = Buffer.concat(body).toString();
+      const message = parsedBody.split("=")[1];
+      fs.writeFileSync("message.txt", message);
       console.log(parsedBody);
     });
     res.statusCode = 302;
