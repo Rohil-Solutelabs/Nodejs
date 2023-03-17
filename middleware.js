@@ -2,21 +2,28 @@ const express = require("express");
 const app = express();
 const port = 3000;
 
-app.use("/", (req, res, next) => {
+const reqFilter = (req, res, next) => {
   if (!req.query.age) {
-    res.send("Please enter age!");
+    res.send("Please Provide age!");
   } else if (req.query.age < 18) {
-    res.send("You can not access this page!");
+    res.send("You are under Age, You can not access this page!");
   } else {
     next();
   }
-});
+};
+
+app.use(reqFilter);
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.send("Welcome Page!");
 });
+
+app.get("/user", (req, res) => {
+  res.send("Welcome to the user Page!");
+});
+
 app.get("/about", (req, res) => {
-  res.send("This is about page!");
+  res.send("Welcome to the about Page!");
 });
 
 app.listen(port, () => {
